@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADMIN-ZOO – Pythons & Bugs /var/pets</title>
+  <meta name="description" content="Lustige Webseite für ADMIN-ZOO – Pythons & Bugs /var/pets im farbenfrohen Pet-Shop-Look." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{
+      --text-xs:clamp(.78rem,.7rem + .25vw,.9rem);
+      --text-sm:clamp(.9rem,.82rem + .35vw,1.02rem);
+      --text-base:clamp(1rem,.95rem + .3vw,1.12rem);
+      --text-lg:clamp(1.2rem,1.05rem + .8vw,1.6rem);
+      --text-xl:clamp(1.7rem,1.25rem + 1.6vw,2.5rem);
+      --text-2xl:clamp(2.4rem,1.4rem + 3vw,4.2rem);
+      --space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;--space-20:5rem;
+      /* Pet-Shop / Zoo Palette: warmes Orange + freundliches Türkis + helles Blau + sanftes Grün  */
+      --bg:#fef7f0;            /* sehr helles, warmes Apricot */
+      --surface:#fffaf5;       /* Kartenhintergrund */
+      --surface-2:#fefcf8;     /* Panels */
+      --offset:#ffe0c2;        /* helles Orange-Beige */
+      --text:#221c1a;          /* weiches Dunkelbraun */
+      --muted:#6d625c;         /* dezentes Braun-Grau */
+      --primary:#ff9934;       /* freundliches Orange */
+      --secondary:#2cbbc3;     /* lebendiges Türkis */
+      --accent:#7ac87c;        /* frisches Grün */
+      --sky:#57b4ff;           /* helles Blau für Akzente */
+      --border:rgba(0,0,0,.08);
+      --card:rgba(255,255,255,.9);
+      --shadow:0 18px 50px rgba(250,156,68,.25);
+      --radius:1.4rem;--radius-sm:1rem;--pill:9999px;
+      --font-display:'Baloo 2',system-ui,sans-serif;--font-body:'Inter',system-ui,sans-serif;
+    }
+    [data-theme="dark"]{
+      --bg:#101015;
+      --surface:#171822;
+      --surface-2:#191b26;
+      --offset:#24263a;
+      --text:#f7f3ec;
+      --muted:#b6b0c2;
+      --primary:#ffb357;
+      --secondary:#39ccd5;
+      --accent:#8bdb8e;
+      --sky:#6ec5ff;
+      --border:rgba(255,255,255,.12);
+      --card:rgba(18,20,32,.92);
+      --shadow:0 26px 80px rgba(0,0,0,.6);
+    }
+
+    *,:before,:after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);line-height:1.6;color:var(--text);background:
+      radial-gradient(circle at 10% 0%,rgba(255,187,102,.35),transparent 30%),
+      radial-gradient(circle at 90% 10%,rgba(87,180,255,.3),transparent 32%),
+      radial-gradient(circle at 0% 60%,rgba(122,200,124,.25),transparent 30%),
+      var(--bg);
+    }
+    img,svg{display:block;max-width:100%;height:auto}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+    .container{width:min(1160px,calc(100% - 2rem));margin:0 auto}
+    .skip-link{position:absolute;left:-9999px}
+    .skip-link:focus{left:1rem;top:1rem;background:var(--primary);color:#fff;padding:.8rem 1rem;border-radius:.7rem;z-index:999}
+
+    header{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+    .nav{display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);padding:var(--space-4) 0}
+    .brand{display:flex;align-items:center;gap:.9rem}
+    .brand-mark{width:52px;height:52px;border-radius:18px;background:conic-gradient(from 210deg,var(--secondary),var(--primary),var(--accent),var(--sky),var(--secondary));display:grid;place-items:center;color:#fff;box-shadow:var(--shadow)}
+    .brand-mark svg{width:28px;height:28px}
+    .brand-copy strong{display:block;font-family:var(--font-display);font-size:1.7rem;line-height:1;letter-spacing:.03em}
+    .brand-copy span{display:block;font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:700}
+    .nav-links{display:flex;gap:var(--space-3);align-items:center;flex-wrap:wrap}
+    .nav-links a,.theme-toggle{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0 1rem;border-radius:var(--pill);border:1px solid var(--border);font-size:var(--text-sm);color:var(--muted);background:color-mix(in srgb,var(--surface-2) 80%,transparent)}
+    .nav-links .primary{background:var(--secondary);border-color:transparent;color:#fff;font-weight:700}
+    .theme-toggle{min-width:44px;padding:0}
+
+    .badge{display:inline-flex;align-items:center;gap:.35rem;padding:.5rem .85rem;border-radius:var(--pill);border:1px solid var(--border);background:color-mix(in srgb,var(--surface-2) 84%,transparent);font-size:var(--text-xs);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--secondary)}
+
+    .hero{padding:clamp(4rem,8vw,7rem) 0 var(--space-16)}
+    .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:var(--space-10);align-items:center}
+    h1,h2,h3{font-family:var(--font-display);line-height:1.02;letter-spacing:.01em}
+    h1{font-size:clamp(2.9rem,7.5vw,5.5rem);max-width:12ch;margin:1rem 0}
+    .lead{max-width:64ch;color:var(--muted);margin-bottom:var(--space-6)}
+    .hero-actions{display:flex;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-8)}
+    .btn{min-height:48px;padding:0 1.2rem;border-radius:var(--pill);display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);font-weight:700;background:color-mix(in srgb,var(--surface-2) 82%,transparent)}
+    .btn.primary{background:var(--primary);border-color:transparent;color:#fff}
+
+    .tag-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:var(--space-3)}
+    .tag{padding:.4rem .75rem;border-radius:var(--pill);border:1px solid var(--border);font-size:var(--text-xs);background:color-mix(in srgb,var(--surface) 80%,transparent);color:var(--muted)}
+
+    .hero-card{padding:var(--space-4);border-radius:1.6rem;background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow)}
+    .hero-card img{aspect-ratio:16/10;object-fit:cover;border-radius:1.2rem}
+    .corner-note{margin-top:var(--space-4);padding:1rem 1.1rem;border-radius:1.1rem;background:var(--surface);border:1px solid var(--border);box-shadow:0 14px 40px rgba(255,153,52,.3)}
+
+    section{padding:var(--space-16) 0}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:var(--space-6);margin-bottom:var(--space-8)}
+    .section-head p{max-width:60ch;color:var(--muted)}
+    h2{font-size:clamp(2.1rem,4.2vw,3.6rem)}
+
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-5)}
+    .card{padding:var(--space-6);border-radius:var(--radius);background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow)}
+    .card h3{font-size:1.8rem;margin-bottom:.7rem}
+    .card p{color:var(--muted)}
+    .icon{width:3.1rem;height:3.1rem;border-radius:1.2rem;display:grid;place-items:center;background:linear-gradient(135deg,var(--secondary),var(--sky));color:#fff;margin-bottom:1rem;font-size:1.6rem}
+
+    .two-col{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--space-5)}
+    .mini-list{list-style:none;display:grid;gap:.9rem;margin-top:1rem}
+    .mini-list li{padding:1rem;border-radius:1.1rem;background:color-mix(in srgb,var(--offset) 70%,transparent);border:1px solid var(--border)}
+
+    .perk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-5)}
+    .perk img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:1.1rem;margin-bottom:1rem;border:1px solid var(--border)}
+
+    .cta-panel{text-align:center;padding:var(--space-10);border-radius:1.6rem;background:linear-gradient(180deg,color-mix(in srgb,var(--surface-2) 86%,transparent),color-mix(in srgb,var(--offset) 80%,transparent));border:1px solid var(--border);box-shadow:var(--shadow)}
+    .cta-panel p{max-width:56ch;margin:1rem auto 1.5rem;color:var(--muted)}
+
+    footer{padding:var(--space-12) 0;border-top:1px solid var(--border);color:var(--muted)}
+    .foot{display:flex;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap}
+
+    @media (max-width:980px){
+      .hero-grid,.two-col,.grid-3,.perk-grid{grid-template-columns:1fr}
+      .section-head{flex-direction:column;align-items:start}
+    }
+    @media (max-width:680px){
+      .nav{flex-direction:column;align-items:start}
+      .nav-links{width:100%}
+      h1{max-width:100%}
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">Zum Inhalt springen</a>
+  <header>
+    <div class="container nav">
+      <div class="brand" aria-label="ADMIN-ZOO Logo">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 9c1.2-1.7 3.1-3 5-3 1.3 0 2.5.6 3.5 1.5"/>
+            <path d="M7 18s2-3 5-3 5 3 5 3"/>
+            <circle cx="9" cy="11" r=".7"/>
+            <circle cx="15" cy="11" r=".7"/>
+          </svg>
+        </div>
+        <div class="brand-copy">
+          <strong>ADMIN-ZOO</strong>
+          <span>Pythons &amp; Bugs · /var/pets</span>
+        </div>
+      </div>
+      <nav class="nav-links" aria-label="Hauptnavigation">
+        <a href="#gehege">Gehege</a>
+        <a href="#kasse">Kasse</a>
+        <a href="#motto">Motto</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Farbschema wechseln">🌙</button>
+        <a class="primary" href="#kontakt">Ticket ziehen</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="badge">Zoohandlung für Menschen mit Commit-Rechten</span>
+          <h1>Pythons &amp; Bugs im /var/pets.</h1>
+          <p class="lead">ADMIN-ZOO ist die humorvolle Verschmelzung von Reptilienhaus und Rechenzentrum: Hier leben Pythons neben Debug-Bugs und die Käfige heißen konsequent <code>/var/pets</code>. Die farbenfrohe Pet-Shop-Palette setzt auf Orange, Türkis, Blau und Grün, wie sie bei vielen Haustier- und Zoo-Brands für Energie, Natur und Freundlichkeit stehen. [web:119][web:121][web:122][web:125]</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#gehege">Zu den Gehegen</a>
+            <a class="btn" href="#kasse">Zur Kasse</a>
+          </div>
+          <div class="tag-row">
+            <span class="tag">Snake-as-a-Service</span>
+            <span class="tag">Bug Breeding</span>
+            <span class="tag">RFID-Pellets</span>
+            <span class="tag">Fiber Toy Recycling</span>
+          </div>
+        </div>
+        <div>
+          <div class="hero-card">
+            <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/981352ec0bca5c77d332b85932f8312f90319e58.jpg" alt="Bunte Zoohandlungs- bzw. Pet-Shop-Innenansicht" width="1600" height="986" loading="eager" decoding="async">
+          </div>
+          <div class="corner-note">
+            <strong style="display:block;margin-bottom:.35rem;">Abteilung /var/pets</strong>
+            Pythons im Dock-Container, Debug-Bugs im Terrarium und ein Schild: „Nicht füttern, nur patchen“.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gehege">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="badge">Gehege</span>
+            <h2>Unsere beliebtesten Admin-Tiere</h2>
+          </div>
+          <p>Die Farben sind bewusst freundlich und verspielt gewählt: Orange vermittelt Energie und gute Laune, Türkis und Blau stehen für Vertrauen und Technologie, Grün für Natur und „tierische“ Seite. Das passt gut zu einem Zoo- bzw. Pet-Shop-Konzept. [web:119][web:121][web:122][web:123]</p>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <div class="icon">🐍</div>
+            <h3>Python-Cluster</h3>
+            <p>Mehrere gut gelaunte Pythons, die sich um Cronjobs, Logrotation und zufällige Skript-Experimente kümmern. Bitte nicht in Produktionsumgebungen aussetzen.</p>
+          </article>
+          <article class="card">
+            <div class="icon">🐞</div>
+            <h3>Bug-Gehege</h3>
+            <p>Hier werden neue Arten von Bugs gezüchtet, die sich besonders gern in Legacy-Formularen und alten PHP-Versionen verstecken.</p>
+          </article>
+          <article class="card">
+            <div class="icon">🦴</div>
+            <h3>Log-Fressnapf</h3>
+            <p>Ein großer Napf voller Logfiles, in den die Tiere nach Belieben rein debuggen dürfen. Achtung: enthält Spuren von Stacktraces.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="kasse">
+      <div class="container two-col">
+        <article class="card">
+          <span class="badge">Kassenbereich</span>
+          <h2 style="margin:.9rem 0 1rem;">Kein Trockenfutter. Nur Tech-Leckerlis.</h2>
+          <p>Dein Gag mit den speziellen Leckerlis an der Kasse wird hier zur eigenen Highlight-Zone ausgebaut.</p>
+          <ul class="mini-list">
+            <li><strong>RFID-Chips für Katzenklappen:</strong> „Bring your own UID“ – perfekt für Katzen mit Single Sign-On.</li>
+            <li><strong>Smarte Futterautomaten:</strong> Voll integriert über offene REST-API, inklusive Webhook bei leerem Napf.</li>
+            <li><strong>Glasfaserkabel als Kauspielzeug:</strong> Ausgemustert, aber farbenfroh – ideal für Welpen und frustrierte Entwickler.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/ba0c1700cf92f27709d7c56ef4bad8cb532a4a73.jpg" alt="Smarte Futterautomaten mit Hund und App-Integration" width="640" height="656" loading="lazy" decoding="async" style="border-radius:1.1rem; aspect-ratio:4/3; object-fit:cover; margin-bottom:1rem;">
+          <h3>REST-API am Napf</h3>
+          <p>Smarte Futterautomaten mit App-Integration passen perfekt zur Idee, dass an der Kasse keine „normalen“ Leckerlis verkauft werden, sondern Tech-Gadgets für Haustiere. [image:116][web:122]</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="motto">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="badge">Motto</span>
+            <h2>/var/pets – bitte vor dem Streicheln backupen.</h2>
+          </div>
+          <p>Die Seite ist als humorvolle Demo gedacht, bleibt aber thematisch in deiner Welt: Pythons, Bugs, REST-APIs und ausgemusterte Glasfaserkabel als Kauspielzeug verbinden Zoo und Infrastruktur auf eine Art, die Admins direkt versteht.</p>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <div class="icon">📦</div>
+            <h3>Container-Gehege</h3>
+            <p>Alle Tiere leben in perfekt isolierten Containern – zumindest bis jemand „docker exec -it“ mit Leckerchen kombiniert.</p>
+          </article>
+          <article class="card">
+            <div class="icon">🌐</div>
+            <h3>DNS-Tunnel</h3>
+            <p>Ein Röhrensystem aus umgebauten Patchkabeln, in dem sich vor allem schnelle Mäuse und langsame Tickets treffen.</p>
+          </article>
+          <article class="card">
+            <div class="icon">🧫</div>
+            <h3>Bug-Labor</h3>
+            <p>Hier werden neue Arten von Race Conditions und Off-by-One-Fehlern gezielt gezüchtet – natürlich nur zu Forschungszwecken.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="extras">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="badge">Fiber Toy</span>
+            <h2>Ausgemusterte Glasfaser als Kauspielzeug</h2>
+          </div>
+          <p>Die bunten Glasfaserkabel geben visuell schönes, technisches Spielzeug her und passen inhaltlich perfekt zu der Idee, Admin-Schrott als Premium-Tierbedarf zu verkaufen. [image:115][web:124][web:129]</p>
+        </div>
+        <div class="perk-grid">
+          <article class="card perk">
+            <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/3e41c936e3e3add9ade5c534ac849a5f2c12c6c4.jpg" alt="Bündel bunter Glasfaserkabel" width="1797" height="980" loading="lazy" decoding="async">
+            <h3>Fiber Fetch</h3>
+            <p>Leicht, flexibel und leuchtend bunt – für Hunde, die genug von Stöcken haben.</p>
+          </article>
+          <article class="card perk">
+            <h3>Safety by Design</h3>
+            <p>In der echten Welt natürlich bitte keine echten Glasfasern als Kauspielzeug nutzen – hier ist es reine Fantasie.</p>
+          </article>
+          <article class="card perk">
+            <h3>Recycling mit Humor</h3>
+            <p>Der Gag funktioniert besonders gut, wenn man in der Zielgruppe sowieso weiß, wie teuer neue Glasfaser ist.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="kontakt">
+      <div class="container">
+        <div class="cta-panel">
+          <span class="badge">Ticket</span>
+          <h2 style="margin-top:1rem;">Vielen Dank für Ihren Besuch im ADMIN-ZOO</h2>
+          <p>Diese HTML-Seite nutzt eine farbenfrohe Pet-Shop- und Zoo-Palette mit Orange, Türkis, Blau und Grün, wie sie in Tier- und Pet-Care-Branding oft verwendet wird, kombiniert mit deinen Ideen zu Pythons, Bugs, /var/pets und Tech-Leckerlis an der Kasse. [web:119][web:121][web:122][web:125]</p>
+          <a class="btn primary" href="#top">Noch eine Runde drehen</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container foot">
+      <div>
+        <strong style="font-family:var(--font-display);font-size:1.6rem;line-height:1;color:var(--text);">ADMIN-ZOO</strong>
+        <p>Witzige Webseite im bunten Zoohandlungs-Look – Pythons &amp; Bugs für Admins mit Humor. [web:119][web:122]</p>
+      </div>
+      <div>
+        <p>An der Kasse gibt es natürlich nur RFID-Chips, smarte Futterautomaten und Glasfaser-Spielzeug. [code_file:78]</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      const toggle=document.querySelector('[data-theme-toggle]');
+      const root=document.documentElement;
+      let current=root.getAttribute('data-theme')||'light';
+      function apply(){
+        root.setAttribute('data-theme',current);
+        toggle.textContent=current==='dark'?'☀️':'🌙';
+        toggle.setAttribute('aria-label',current==='dark'?'Zu hellem Modus wechseln':'Zu dunklem Modus wechseln');
+      }
+      apply();
+      toggle.addEventListener('click',()=>{current=current==='dark'?'light':'dark';apply();});
+    })();
+  </script>
+</body>
+</html>
